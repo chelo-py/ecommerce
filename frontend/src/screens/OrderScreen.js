@@ -10,11 +10,6 @@ import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../constants/orderConstant
 import formatoPy from '../util';
 
 export default function OrderScreen(props) {
-    // const [nombreCompleto, setnombreCompleto] = useState('')
-    // const [direccion, setDireccion] = useState('')
-    // const [ciudad, setCiudad] = useState('')
-    // const [barrio, setBarrio] = useState('')
-    // const [entregado, setEntregado] = useState('')
 
     const orderId = props.match.params.id;
     const [sdkReady, setSdkReady] = useState(false);

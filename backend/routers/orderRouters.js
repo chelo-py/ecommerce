@@ -103,6 +103,7 @@ orderRouter.post(
     })
 );
 
+
 //Api para listar los detalles de un pedido
 orderRouter.get(
     '/:id/listar',
@@ -155,7 +156,7 @@ orderRouter.put(
             JOIN vt_articulo AS a ON d.cod_articulo = a.cod_articulo
             WHERE nro_pedido = $1`, [orderId]);
 
-            const cn = 'postgres://postgres:apolo@localhost:5432/apolo';
+            const cn = 'postgres://postgres:123@localhost:5432/ecommerce';
             const db = pgp(cn);
 
             var values = new Array;
@@ -238,5 +239,21 @@ orderRouter.put(
         }
     })
 );
+
+// Para traer un pedido por id
+orderRouter.get(
+    '/:id',
+    isAuth,
+    expressAsyncHandler(async (req, res) => {
+        const orderId = req.params.id;
+        const response = await pool.query('SELECT * FROM vt_pedido_cab WHERE nro_pedido = $1',[orderId])
+        if (response){
+            const order = response.rows[0];
+            res.send(order)
+        } else {
+            res.status(404).send({message: 'Pedido no encontrado'})
+        }
+    }),
+)
 
 export default orderRouter;
