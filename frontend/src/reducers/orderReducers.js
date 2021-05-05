@@ -72,7 +72,7 @@ export const orderPayReducer = (state = {}, action) => {
     }
 };
 
-export const orderMineListReducer = (state = { pedidos: [] }, action) => {
+export const orderMineListReducer = (state = { loading: true }, action) => {
     switch (action.type) {
         case ORDER_MINE_LIST_REQUEST:
             return { loading: true };

@@ -106,7 +106,7 @@ export const listOrderMine = ({ usuario = '', pageNumber = '' }) => async (dispa
         userSignin: { userInfo },
     } = getState();
     try {
-        const { data } = await Axios.get(`/api/orders/listar-pedidos?usuario=${usuario}&pageNumber=${pageNumber}`, {
+        const { data } = await Axios.get(`/api/orders/orderhistory?usuario=${usuario}&pageNumber=${pageNumber}`, {
             headers: {
                 Authorization: `Bearer ${userInfo.token}`,
             },
@@ -145,11 +145,9 @@ export const listarPedidos = (pageNumber = '',) => async (dispatch, getState) =>
 //API que nos permite eliminar un registro entre la lista de pedidos
 export const deleteOrder = (orderId) => async (dispatch, getState) => {
     dispatch({ type: ORDER_DELETE_REQUEST, payload: orderId });
-    const {
-        userSignin: { userInfo },
-    } = getState();
+    const {userSignin: { userInfo } } = getState();
     try {
-        const { data } = /* await*/ Axios.delete(`/api/orders/${orderId}`, {
+        const { data } = await Axios.delete(`/api/orders/${orderId}`, {
             headers: { Authorization: `bearer ${userInfo.token}` },
         });
         dispatch({ type: ORDER_DELETE_SUCCESS, payload: data });

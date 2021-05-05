@@ -9,8 +9,10 @@ import formatoPy from '../util';
 
 export default function OrderListScreen(props) {
     const { pageNumber = 1 } = useParams();
+
     const orderList = useSelector((state) => state.orderList);
     const { loading, error, pedidos, page, pages } = orderList;
+
     const orderDelete = useSelector((state) => state.orderDelete);
     const {
         loading: loadingDelete,
@@ -26,7 +28,7 @@ export default function OrderListScreen(props) {
     //preguntamos si queremos borrar, e importamos el evento desde OrderActions.js
     const deleteHandler = (order) => {
         if (window.confirm('Estás seguro que deseas eliminar??')) {
-            dispatch(deleteOrder(order._id));
+            dispatch(deleteOrder(order.nro_pedido));
         }
     };
     return (

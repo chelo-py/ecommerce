@@ -32,19 +32,17 @@ orderRouter.get(
 
 // Listar pedidos por clientes
 orderRouter.get(
-    '/listar-pedidos',
-    isAuth,
+    '/orderhistory',
     expressAsyncHandler(async (req, res) => {
         const usuario = req.query.usuario || '';
         const pageSize = 10;
         const page = Number(req.query.pageNumber) || 1;
-        const response = await pool.query(`SELECT COUNT(*) FROM vt_pedido_cab WHERE cod_usuario = $1`, [usuario]);
+        const response = await pool.query(`SELECT COUNT(*) FROM vt_pedido_cab WHERE cod_usuario = $1`,[usuario]);
         const count = parseInt(response.rows[0].count);
         try {
             const response2 = await pool.query(
                 `SELECT * FROM vt_pedido_cab WHERE cod_usuario = $1 ORDER BY nro_pedido LIMIT ${pageSize} OFFSET ${(page - 1) * pageSize} `, [usuario]);
             const pedidos = response2.rows;
-            console.log(pedidos);
             res.send({ pedidos, page, pages: Math.ceil(count / pageSize) });
         } catch (err) {
             console.error(err.message);
@@ -203,21 +201,26 @@ orderRouter.put(
     })
 );
 
-// //API para eliminar pedidos
-// orderRouter.delete(
-//     '/:id',
-//     isAuth,
-//     isAdmin,
-//     expressAsyncHandler(async (req, res) => {
-//         const order = await Order.findById(req.params.id);
-//         if (order) {
-//             const deleteOrder = await order.remove();
-//             res.send({ message: 'Pedido eliminado', order: deleteOrder });
-//         } else {
-//             res.status(404).send({ message: 'Pedido no encontrado ' });
-//         }
-//     })
-// );
+//API para eliminar pedidos
+orderRouter.delete(
+    '/:id',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+        const {id} = req.params;
+        const response = await pool.query(`DELETE FROM vt_pedido_det WHERE nro_pedido = $1`,[id]);
+        const response2 = await pool.query(`DELETE FROM vt_pagoresultado WHERE nro_pedido = $1`,[id]);
+        const response3 = await pool.query(`DELETE FROM vt_pedido_cab WHERE nro_pedido = $1`,[id]);
+        const order = response.rows[0];
+        const order2 = response2.rows[0];
+        const order3 = response3.rows[0];
+        if (response) {
+            res.send({ message: 'Pedido eliminado', order , order2 , order3 });
+        } else {
+            res.status(404).send({ message: 'Pedido no encontrado ' });
+        }
+    })
+);
 
 //API para confirmar el delivery de un pedido
 orderRouter.put(

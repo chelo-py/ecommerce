@@ -7,17 +7,22 @@ import MessageBox from '../components/MessageBox';
 import formatoPy from '../util';
 
 export default function OrderHistoryScreen(props) {
-    const orderMineList = useSelector(state => state.orderMineList);
     const { pageNumber = 1 } = useParams();
-    const userId = props.match.params.id;
+    
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
 
+    const userId = userInfo.cod_usuario;
+
+    const orderMineList = useSelector(state => state.orderMineList);
     const { loading, error, pedidos, page, pages } = orderMineList;
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(listOrderMine({ usuario: userId, pageNumber }));
     }, [dispatch, pageNumber, userId]);
     return (
-        <div className="margen">
+        <div className="margen contenedor">
             <h1>Historial de Pedidos</h1>
             {loading ? <LoadingBox></LoadingBox> :
                 error ? <MessageBox variant="danger">{error}</MessageBox>
@@ -40,7 +45,7 @@ export default function OrderHistoryScreen(props) {
                                         <tr key={order.nro_pedido}>
                                             <td>{order.nro_pedido}</td>
                                             <td>{order.fecha_pedido.substring(0, 10)}</td>
-                                            <td>{formatoPy(order.total_precios)}</td>
+                                            <td>{formatoPy(order.precio_total)}</td>
                                             <td>{order.pagado ? order.fecha_pago.substring(0, 10) : 'No'}</td>
                                             <td>
                                                 {order.entregado
@@ -56,7 +61,7 @@ export default function OrderHistoryScreen(props) {
                                                     }}
                                                 >
                                                     Detalles
-                                    </button>
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
