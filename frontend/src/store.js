@@ -43,7 +43,6 @@ import {
     userUpdateReducer
 }
     from './reducers/userReducers';
-import { listaPrecioCreateReducer, listaPrecioListReducer } from './reducers/listaPreciosReducers';
 import {
     marcaCreateReducer,
     listarMarcasReducer,
@@ -95,14 +94,12 @@ const reducer = combineReducers({
     productSubCategoryList: productSubCategoryListReducer,
     productReviewCreate: productReviewCreateReducer,
     userAddressMap: userAddressMapReducer,
-    listaPrecios: listaPrecioListReducer,
     marcaCreate: marcaCreateReducer,
     marcaListar: listarMarcasReducer,
     marcaTopList: listarMarcasTopReducer,
     listadoProducto: listarProductoReducer,
     marcaDetails: marcaDetailsReducer,
     marcaReviewCreate: marcaReviewCreateReducer,
-    listaPrecioCreate: listaPrecioCreateReducer,
     listarUnProducto: listarUnProductoReducer,
     listarProductosMarca: listarProductosMarcaReducer,
     listarReviews: productoReviewListReducer,

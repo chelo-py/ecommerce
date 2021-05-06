@@ -40,11 +40,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBriefcase, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { faChevronUp, faClock, faMapMarkerAlt, faPhoneSquareAlt, faUser } from '../node_modules/@fortawesome/free-solid-svg-icons/index';
 import { faFacebookF, faInstagram, faWhatsapp } from '../node_modules/@fortawesome/free-brands-svg-icons/index';
-import ListaPrecioScreen from './screens/ListaPrecioScreen';
 import MarcaScreen from './screens/MarcaScreen';
 import { listarMarcas } from './actions/marcaActions';
 import Marca from './components/Marcas'
-import CrearListaPrecioScreen from './screens/CrearListaPrecioScreen';
 import CrearMarcaScreen from './screens/CrearMarcaScreen';
 import { listProductCategories } from './actions/productActions';
 
@@ -210,9 +208,6 @@ function App() {
                                                         <a href="/userlist">Usuarios</a>
                                                     </li>
                                                     <li>
-                                                        <a href="/crearlistaprecio">Crear Lista precio</a>
-                                                    </li>
-                                                    <li>
                                                         <a href="/crearmarca">Crear Marcas</a>
                                                     </li>
                                                 </ul>
@@ -349,10 +344,8 @@ function App() {
                     ></Route>
                     <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
                     <PrivateRoute path="/map" component={MapScreen}></PrivateRoute>
-                    <AdminRoute path="/crearlistaprecio" component={CrearListaPrecioScreen} exact></AdminRoute>
                     <AdminRoute path="/crearmarca" component={CrearMarcaScreen} exact></AdminRoute>
                     <AdminRoute path="/crearproducto" component={CrearProductoScreen} ></AdminRoute>
-                    <AdminRoute path="/listaprecio" component={ListaPrecioScreen} exact></AdminRoute>
                     <AdminRoute path="/productlist" component={ProductListScreen} exact></AdminRoute>
                     <AdminRoute path="/productlist/pageNumber/:pageNumber" component={ProductListScreen} exact></AdminRoute>
                     <AdminRoute path="/orderlist" component={OrderListScreen} exact></AdminRoute>
