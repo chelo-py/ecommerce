@@ -1,6 +1,6 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 import pool from "../conexion.js";
 import { generateToken, isAdmin, isAuth } from "../util.js";
 
@@ -10,8 +10,24 @@ const userRouter = express.Router();
 userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
-    const { nombre, email, ruc, ci } = req.body;
+    const { nombre, email, ci, ruc } = req.body;
     const password = bcrypt.hashSync(req.body.password, 8);
+
+    const response = await pool.query(`SELECT email, ci, ruc, nombre from bs_usuario`);
+    const emailArray = response.rows;
+
+    emailArray.forEach((element) => {
+      if (email === (element.email)) {
+        res.status(404).send({ message: 'ya existe este correo' })
+      } else
+        if (ci === (element.ci)) {
+          res.status(404).send({ message: 'ya existe este nro de cédula' })
+        } else
+          if (ruc === (element.ruc)) {
+            res.status(404).send({ message: 'ya existe nro ruc' })
+          }
+    });
+
     const newUser = await pool.query(
       `INSERT INTO bs_usuario ( nombre, email, password, ruc, ci)
             VALUES ($1, $2, $3, $4, $5)`,
@@ -27,6 +43,7 @@ userRouter.post(
     });
   })
 );
+
 
 // Iniciar Sesión
 userRouter.post(
